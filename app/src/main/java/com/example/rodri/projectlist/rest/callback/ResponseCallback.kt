@@ -5,6 +5,6 @@ import retrofit2.Response
 
 
 interface ResponseCallback<T> {
-    fun onResponseOK(response: T)
+    fun onResponseOK(responseData: T)
     fun onResponseKO(errorResponse: ErrorResponse)
 }
