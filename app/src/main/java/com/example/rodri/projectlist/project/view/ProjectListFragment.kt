@@ -3,6 +3,7 @@ package com.example.rodri.projectlist.project.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -15,13 +16,13 @@ import com.example.rodri.projectlist.common.rest.model.ProjectListItem
 import com.example.rodri.projectlist.common.wrapper.ObserverWrapper
 import com.example.rodri.projectlist.project.viewmodel.GithubProjectListViewModel
 import com.example.rodri.projectlist.project.viewmodel.ProjectListViewModel
+import org.jetbrains.anko.support.v4.toast
 
 
 class ProjectListFragment : Fragment() {
 
     private val viewModel: ProjectListViewModel by lazy {
-        ViewModelProvider.AndroidViewModelFactory.getInstance(ProjectListApp.instance)
-            .create(GithubProjectListViewModel::class.java)
+        ViewModelProviders.of(this) .get(GithubProjectListViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -30,11 +31,11 @@ class ProjectListFragment : Fragment() {
         viewModel.getObservableProjectList()
             .observe(this, ObserverWrapper(object : ObserverWrapper.ObserverCallbacks<List<ProjectListItem>> {
                 override fun onChange(data: List<ProjectListItem>) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    toast("Received ${data.size} projects")
                 }
 
                 override fun onError(errorMessage: String?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    toast(errorMessage ?: "Error is null")
                 }
             }))
     }

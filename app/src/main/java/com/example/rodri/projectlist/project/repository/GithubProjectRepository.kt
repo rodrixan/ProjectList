@@ -41,5 +41,5 @@ class GithubProjectRepository : ProjectRepository {
     private fun <T> wrapProjectListResponse(
         data: T? = null,
         error: ErrorResponse? = null
-    ): LiveDataWrapper<T> = LiveDataWrapper(data == null, data, error)
+    ): LiveDataWrapper<T> = LiveDataWrapper(data != null, data, error)
 }
