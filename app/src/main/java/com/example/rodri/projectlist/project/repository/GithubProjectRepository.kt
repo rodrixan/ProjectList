@@ -1,7 +1,7 @@
 package com.example.rodri.projectlist.project.repository
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.rodri.projectlist.common.rest.api.ProjectApi
 import com.example.rodri.projectlist.common.rest.callback.ResponseCallback
 import com.example.rodri.projectlist.common.rest.callback.project.ProjectApiServiceCallback

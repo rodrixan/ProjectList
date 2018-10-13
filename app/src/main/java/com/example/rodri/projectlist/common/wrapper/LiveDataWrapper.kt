@@ -1,6 +1,6 @@
 package com.example.rodri.projectlist.common.wrapper
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.example.rodri.projectlist.common.rest.model.ErrorResponse
 
 /**

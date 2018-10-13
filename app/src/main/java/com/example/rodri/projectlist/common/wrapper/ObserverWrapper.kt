@@ -1,6 +1,6 @@
 package com.example.rodri.projectlist.common.wrapper
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 
 class ObserverWrapper<T>(private val onChangeListener: ObserverCallbacks<T>) : Observer<LiveDataWrapper<T>> {
 

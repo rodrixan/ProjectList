@@ -1,6 +1,6 @@
 package com.example.rodri.projectlist.project
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.rodri.projectlist.R
 import com.example.rodri.projectlist.project.view.ProjectListFragment
