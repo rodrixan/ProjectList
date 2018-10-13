@@ -22,6 +22,17 @@ abstract class RecyclerViewBaseAdapter<T, V : View> : RecyclerView.Adapter<ViewW
     protected var items: MutableList<T> = ArrayList()
         private set
 
+    protected abstract fun onCreateItemView(parent: ViewGroup, viewType: Int): V
+
+    override fun getItemCount(): Int = items.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewWrapper<V> =
+        ViewWrapper(onCreateItemView(parent, viewType))
+
+    override fun onBindViewHolder(holder: ViewWrapper<V>, position: Int) {
+        bind(items[position], holder.view)
+    }
+
     fun updateItems(newItems: List<T>) {
         updateQueue.add(newItems)
         if (updateQueue.size > 1) {
@@ -52,18 +63,6 @@ abstract class RecyclerViewBaseAdapter<T, V : View> : RecyclerView.Adapter<ViewW
         items.clear()
         items.addAll(new)
     }
-
-    protected abstract fun onCreateItemView(parent: ViewGroup, viewType: Int): V
-
-    override fun getItemCount(): Int = items.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewWrapper<V> =
-        ViewWrapper(onCreateItemView(parent, viewType))
-
-    override fun onBindViewHolder(holder: ViewWrapper<V>, position: Int) {
-        bind(items[position], holder.view)
-    }
-
 }
 
 class BaseAdapterDiffCallback<T>(private val oldList: List<T>, private val newList: List<T>) : DiffUtil.Callback() {
