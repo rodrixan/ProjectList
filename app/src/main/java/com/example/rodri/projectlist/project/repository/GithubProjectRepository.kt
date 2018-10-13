@@ -11,11 +11,7 @@ import com.example.rodri.projectlist.common.wrapper.LiveDataWrapper
 import com.example.rodri.projectlist.common.rest.service.ProjectApiService
 import timber.log.Timber
 
-class GithubProjectRepository : ProjectRepository {
-
-    private val projectService: ProjectApi by lazy {
-        ProjectApiService.getApi()
-    }
+class GithubProjectRepository(private val projectService: ProjectApi) : ProjectRepository {
 
     val projectListData = MutableLiveData<LiveDataWrapper<List<ProjectListItem>>>()
 
