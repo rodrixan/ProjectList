@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
+import kotlin.collections.ArrayList
 
 data class ViewWrapper<V : View>(val view: V) : RecyclerView.ViewHolder(view)
 
