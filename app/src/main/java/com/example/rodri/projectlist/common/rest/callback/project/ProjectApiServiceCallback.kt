@@ -27,6 +27,6 @@ class ProjectApiServiceCallback<T>(responseCallback: ResponseCallback<T>) : Serv
         } ?: return ErrorResponse("")
     }
 
-    private fun convertToAppErrorResponse(apiError: ProjectApiErrorResponse) =
-        ErrorResponse(apiError.errorMessage)
+    private fun convertToAppErrorResponse(apiError: ProjectApiErrorResponse?) =
+        ErrorResponse(apiError?.errorMessage ?: "Null error")
 }

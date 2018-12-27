@@ -14,7 +14,7 @@ abstract class ServiceCallback<T>(private val responseCallback: ResponseCallback
 
     abstract fun parseErrorResponse(response: Response<T>): ErrorResponse
 
-    override fun onResponse(call: Call<T>, response: Response<T>) {
+    final override fun onResponse(call: Call<T>, response: Response<T>) {
         Timber.d("Request successful? ${response.isSuccessful()}. Canceled? ${call.isCanceled()}. HTTP Code:  ${response.code()}. URL: ${call.request().url().url()}")
         when (response.code()) {
             HttpURLConnection.HTTP_OK -> {
@@ -31,7 +31,7 @@ abstract class ServiceCallback<T>(private val responseCallback: ResponseCallback
         }
     }
 
-    override fun onFailure(call: Call<T>, t: Throwable) {
+    final override fun onFailure(call: Call<T>, t: Throwable) {
         Timber.e("Failure on call: ${t.message}")
         responseCallback.onResponseKO(ErrorResponse())
     }
