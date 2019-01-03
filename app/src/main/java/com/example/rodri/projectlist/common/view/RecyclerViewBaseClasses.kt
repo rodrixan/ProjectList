@@ -4,8 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,9 +45,9 @@ abstract class RecyclerViewBaseAdapter<T, V : View> : RecyclerView.Adapter<ViewW
     }
 
     private fun updateItemsAsync(new: List<T>) {
-        doAsync {
+        GlobalScope.launch {
             val diffResult = DiffUtil.calculateDiff(BaseAdapterDiffCallback(ArrayList(items), new))
-            uiThread {
+            withContext(Dispatchers.Main) {
                 applyUpdates(diffResult, new)
             }
         }

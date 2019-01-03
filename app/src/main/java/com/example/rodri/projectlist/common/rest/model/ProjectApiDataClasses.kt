@@ -1,7 +1,7 @@
 package com.example.rodri.projectlist.common.rest.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.Date
+import java.util.*
 
 data class ProjectListItem(
     @SerializedName("id") var id: Long = 0,

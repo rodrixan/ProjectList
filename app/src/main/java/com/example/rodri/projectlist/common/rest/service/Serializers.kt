@@ -17,7 +17,8 @@ class DateDeserializer : JsonDeserializer<Date> {
                 return SimpleDateFormat(format).parse(jsonElement.asString)
             } catch (e: ParseException) {
                 Timber.e(
-                    "Can't parse date: ${jsonElement.asString} to [$format] format")
+                    "Can't parse date: ${jsonElement.asString} to [$format] format"
+                )
             }
         }
         Timber.e("Unparseable date: ${jsonElement.asString}. Supported formats: ${Arrays.toString(DATE_FORMATS)}")

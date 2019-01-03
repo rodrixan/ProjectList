@@ -2,21 +2,22 @@ package com.example.rodri.projectlist.project.view
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import com.bumptech.glide.Glide
 import com.example.rodri.projectlist.R
+import com.example.rodri.projectlist.common.data.AppInternalData
 import com.example.rodri.projectlist.common.rest.model.ProjectListItem
-import com.example.rodri.projectlist.common.wrapper.ObserverWrapper
 import com.example.rodri.projectlist.project.view.adapter.ProjectAdapter
 import com.example.rodri.projectlist.project.viewmodel.GithubProjectListViewModel
 import com.example.rodri.projectlist.project.viewmodel.ProjectListViewModel
 import kotlinx.android.synthetic.main.fragment_project_list.*
+import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -26,19 +27,23 @@ class ProjectListFragment : Fragment() {
     private val viewModel: ProjectListViewModel by viewModel<GithubProjectListViewModel>()
     private val projectAdapter: ProjectAdapter = ProjectAdapter()
 
-    private lateinit var rvProjects: RecyclerView
-
-    private val projectListObserver =
-        ObserverWrapper(object : ObserverWrapper.ObserverCallbacks<List<ProjectListItem>> {
-            override fun onChange(data: List<ProjectListItem>) {
-                toast("Received ${data.size} projects")
-                projectAdapter.updateItems(data)
+    private val projectListObserver = Observer<AppInternalData<List<ProjectListItem>>> {
+        when (it) {
+            null, is AppInternalData.Loading -> {
+                Glide.with(act).load(getString(R.string.loading_gif_url)).into(ivLoading)
+                ivLoading.visibility = View.VISIBLE
             }
-
-            override fun onError(errorMessage: String?) {
-                toast(errorMessage ?: "Error is null")
+            is AppInternalData.Error -> {
+                ivLoading.visibility = View.GONE
+                toast(it.message)
             }
-        })
+            is AppInternalData.Success -> {
+                ivLoading.visibility = View.GONE
+                toast("Received ${it.data.size} projects")
+                projectAdapter.updateItems(it.data)
+            }
+        }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,14 +52,16 @@ class ProjectListFragment : Fragment() {
             .observe(this, projectListObserver)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_project_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        inflater.inflate(R.layout.fragment_project_list, container, false)
 
-        rvProjects = rootView.findViewById(R.id.rvProjects) as RecyclerView
-        rvProjects.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        rvProjects.layoutManager = LinearLayoutManager(act, RecyclerView.VERTICAL, false)
         rvProjects.adapter = projectAdapter
 
-        return rootView
     }
 
     override fun onDestroy() {
@@ -64,5 +71,6 @@ class ProjectListFragment : Fragment() {
 
     companion object {
         fun newInstance() = ProjectListFragment()
+        val fragmentTag = ProjectListFragment::class.simpleName
     }
 }

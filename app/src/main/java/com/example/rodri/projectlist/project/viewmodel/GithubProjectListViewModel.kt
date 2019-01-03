@@ -2,17 +2,17 @@ package com.example.rodri.projectlist.project.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.rodri.projectlist.project.repository.ProjectRepository
+import com.example.rodri.projectlist.common.data.AppInternalData
 import com.example.rodri.projectlist.common.rest.model.ProjectListItem
-import com.example.rodri.projectlist.common.wrapper.LiveDataWrapper
+import com.example.rodri.projectlist.project.repository.ProjectRepository
 
 class GithubProjectListViewModel(private val projectRepository: ProjectRepository) : ViewModel(), ProjectListViewModel {
 
-    private val observableProjectList: LiveData<LiveDataWrapper<List<ProjectListItem>>>
+    private val observableProjectList: LiveData<AppInternalData<List<ProjectListItem>>>
 
     init {
         observableProjectList = projectRepository.getProjectList("rodrixan")
     }
 
-    override fun getObservableProjectList(): LiveData<LiveDataWrapper<List<ProjectListItem>>> = observableProjectList
+    override fun getObservableProjectList(): LiveData<AppInternalData<List<ProjectListItem>>> = observableProjectList
 }

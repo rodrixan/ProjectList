@@ -18,7 +18,7 @@ ext {
     coroutines_version = '1.1.0'
 
     retrofit_version = '2.5.0'
-    retrofit_cororutines_adapter_version = '1.0.0'
+    retrofit_cororutines_adapter_version = '0.9.2'
     okhttp_version = '3.12.1'
     koin_version = '1.0.2'
 }
@@ -65,7 +65,7 @@ def retrofitDependencies = dependencyGroup {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:$retrofit_cororutines_adapter_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_cororutines_adapter_version"
 
 }
 

@@ -5,4 +5,5 @@
 
     <string name="rv_item_project_language_placeholder">Language: %1$s</string>
     <string name="rv_item_project_watchers_placeholder">Watchers: %1$d</string>
+    <string name="loading_gif_url">https://i.redd.it/ounq1mw5kdxy.gif</string>
 </resources>

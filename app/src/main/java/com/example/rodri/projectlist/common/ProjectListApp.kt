@@ -12,15 +12,10 @@ class ProjectListApp : Application() {
             private set
     }
 
-
     override fun onCreate() {
         super.onCreate()
         instance = this
-        initKoin()
-        Timber.plant(Timber.DebugTree())
-    }
-
-    private fun initKoin() {
         startKoin(instance, listOf(projectModule))
+        Timber.plant(Timber.DebugTree())
     }
 }
