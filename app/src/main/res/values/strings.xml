@@ -5,5 +5,11 @@
 
     <string name="rv_item_project_language_placeholder">Language: %1$s</string>
     <string name="rv_item_project_watchers_placeholder">Watchers: %1$d</string>
+
+    <string name="project_detail_issues_placeholder">Open issues: %1$d</string>
+    <string name="project_detail_create_date_placeholder">Created at: %1$s</string>
+    <string name="project_detail_update_date_placeholder">Updated at: %1$s</string>
+    <string name="project_detail_clone_url_placeholder">Clone URL:\n%1$s</string>
+
     <string name="loading_gif_url">https://i.redd.it/ounq1mw5kdxy.gif</string>
 </resources>

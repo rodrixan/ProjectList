@@ -9,6 +9,6 @@ object GlobalConstants {
 
     val HTTP_LOGGING_LEVEL =
         if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-    const val DATE_FORMAT_BODY = "dd/MM/yyyy"
+    const val DATE_FORMAT_BODY = "yyyy-MM-dd'T'HH:mm:ss'Z'"
     const val DATE_FORMAT_DATA = "dd/MM/yyyy"
 }

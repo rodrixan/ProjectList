@@ -13,6 +13,6 @@ interface ProjectApi {
     fun getProjectList(@Path("user") user: String): Deferred<Response<List<ProjectListItem>>>
 
     @GET("/repos/{user}/{reponame}")
-    fun getProjectDetails(@Path("user") user: String, @Path("reponame") projectName: String): Call<ProjectDetails>
+    fun getProjectDetails(@Path("user") user: String, @Path("reponame") projectName: String): Deferred<Response<ProjectDetails>>
 
 }

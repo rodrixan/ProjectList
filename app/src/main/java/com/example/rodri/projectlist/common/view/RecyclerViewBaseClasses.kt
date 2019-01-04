@@ -14,13 +14,15 @@ import kotlin.collections.ArrayList
 data class ViewWrapper<V : View>(val view: V) : RecyclerView.ViewHolder(view)
 
 interface RecyclerViewBaseBinder<T, V : View> {
-    fun bind(data: T, view: V)
+    fun bind(data: T, itemView: V)
 }
 
 abstract class RecyclerViewBaseAdapter<T, V : View> : RecyclerView.Adapter<ViewWrapper<V>>(),
     RecyclerViewBaseBinder<T, V> {
 
     private val updateQueue: Queue<List<T>> = ArrayDeque()
+
+    var onClickListener: ((T) -> Unit)? = null
 
     protected var items: MutableList<T> = ArrayList()
         private set

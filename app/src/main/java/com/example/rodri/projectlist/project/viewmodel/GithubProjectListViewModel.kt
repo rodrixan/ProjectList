@@ -8,11 +8,7 @@ import com.example.rodri.projectlist.project.repository.ProjectRepository
 
 class GithubProjectListViewModel(private val projectRepository: ProjectRepository) : ViewModel(), ProjectListViewModel {
 
-    private val observableProjectList: LiveData<AppInternalData<List<ProjectListItem>>>
+    override val projectList: LiveData<AppInternalData<List<ProjectListItem>>> =
+        projectRepository.getProjectList("rodrixan")
 
-    init {
-        observableProjectList = projectRepository.getProjectList("rodrixan")
-    }
-
-    override fun getObservableProjectList(): LiveData<AppInternalData<List<ProjectListItem>>> = observableProjectList
 }

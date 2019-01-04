@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.rodri.projectlist.R
 import com.example.rodri.projectlist.common.data.AppInternalData
+import com.example.rodri.projectlist.common.fragment.BaseFragment
 import com.example.rodri.projectlist.common.rest.model.ProjectListItem
+import com.example.rodri.projectlist.common.util.loadFromUrl
+import com.example.rodri.projectlist.project.goToFragment
 import com.example.rodri.projectlist.project.view.adapter.ProjectAdapter
 import com.example.rodri.projectlist.project.viewmodel.GithubProjectListViewModel
 import com.example.rodri.projectlist.project.viewmodel.ProjectListViewModel
@@ -22,15 +23,19 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class ProjectListFragment : Fragment() {
+class ProjectListFragment : BaseFragment() {
 
     private val viewModel: ProjectListViewModel by viewModel<GithubProjectListViewModel>()
-    private val projectAdapter: ProjectAdapter = ProjectAdapter()
+    private val projectAdapter: ProjectAdapter = ProjectAdapter().apply {
+        onClickListener = { project -> act.goToFragment(ProjectDetailFragment.newInstance(project.name)) }
+    }
+
+    override fun getFragmentTag() = FRAGMENT_TAG
 
     private val projectListObserver = Observer<AppInternalData<List<ProjectListItem>>> {
         when (it) {
             null, is AppInternalData.Loading -> {
-                Glide.with(act).load(getString(R.string.loading_gif_url)).into(ivLoading)
+                ivLoading.loadFromUrl(getString(R.string.loading_gif_url))
                 ivLoading.visibility = View.VISIBLE
             }
             is AppInternalData.Error -> {
@@ -48,7 +53,7 @@ class ProjectListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.getObservableProjectList()
+        viewModel.projectList
             .observe(this, projectListObserver)
     }
 
@@ -66,11 +71,11 @@ class ProjectListFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.getObservableProjectList().removeObserver(projectListObserver)
+        viewModel.projectList.removeObserver(projectListObserver)
     }
 
     companion object {
         fun newInstance() = ProjectListFragment()
-        val fragmentTag = ProjectListFragment::class.simpleName
+        val FRAGMENT_TAG = "${ProjectListFragment::class.simpleName}"
     }
 }
