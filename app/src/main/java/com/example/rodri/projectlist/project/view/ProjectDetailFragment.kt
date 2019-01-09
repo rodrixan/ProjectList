@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.rodri.projectlist.R
 import com.example.rodri.projectlist.common.GlobalConstants
@@ -77,20 +76,23 @@ class ProjectDetailFragment : BaseFragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        viewModel.getProjectDetails(projectName)
-            .observe(this, projectDetailsObserver)
+        viewModel.currentProjectDetails.observe(this, projectDetailsObserver)
+        if (savedInstanceState == null) {
+            //only load first time
+            viewModel.loadProjectDetails(projectName)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.fragment_project_detail, container, false)
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        viewModel.projectList.removeObserver(projectListObserver)
-//    }
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.currentProjectDetails.removeObserver(projectDetailsObserver)
+    }
 
     companion object {
         fun newInstance(projectName: String) = ProjectDetailFragment().apply {
@@ -108,5 +110,3 @@ fun Date.parseDDMMYYYDate(): String {
     val sym = DateFormatSymbols.getInstance()
     return SimpleDateFormat(GlobalConstants.DATE_FORMAT_DATA, sym).format(this)
 }
-
-fun Context.getColor(colorId: Int) = ContextCompat.getColor(this, colorId)

@@ -18,8 +18,8 @@ import java.net.HttpURLConnection
 class GithubProjectRepository : ProjectRepository {
 
 
-    val projectListData = MutableLiveData<AppInternalData<List<ProjectListItem>>>()
-    val projectDetails = MutableLiveData<AppInternalData<ProjectDetails>>()
+    private val projectListData = MutableLiveData<AppInternalData<List<ProjectListItem>>>()
+    private val projectDetails = MutableLiveData<AppInternalData<ProjectDetails>>()
 
     val dummyList = listOf(
         ProjectListItem(0, "Test1", User(), 1, "Java"),
