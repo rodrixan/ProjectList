@@ -7,7 +7,7 @@ import com.example.rodri.projectlist.R
 
 fun ImageView.loadFromDrawable(drawableId: Int) {
     if (drawableId != -1) {
-        Glide.with(context).load(drawableId).apply(RequestOptions().fitCenter()).into(this)
+        Glide.with(context).load(drawableId).apply(RequestOptions().centerInside()).into(this)
     }
 }
 
