@@ -1,6 +1,5 @@
 package com.example.rodri.projectlist.project.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.rodri.projectlist.common.data.AppInternalData
 import com.example.rodri.projectlist.common.rest.model.ProjectDetails
@@ -28,11 +27,11 @@ class GithubProjectRepository : ProjectRepository {
         ProjectListItem(0, "Test3", User(), 20, "JavaScript")
     )
 
-    override fun loadProjectList(userId: String){
+    override fun loadProjectList(userId: String) {
 
         //only make a call if it's not already loading
         if (projectList.value !is AppInternalData.Loading) {
-            projectList.value = AppInternalData.Loading()
+            projectList.value = AppInternalData.Loading
 
             GlobalScope.launch {
                 Timber.d("Calling for $userId projects...")
@@ -53,9 +52,9 @@ class GithubProjectRepository : ProjectRepository {
         }
     }
 
-    override fun loadProjectDetails(userId: String, projectName: String){
+    override fun loadProjectDetails(userId: String, projectName: String) {
         if (projectDetails.value !is AppInternalData.Loading) {
-            projectDetails.value = AppInternalData.Loading()
+            projectDetails.value = AppInternalData.Loading
 
             GlobalScope.launch {
                 Timber.d("Calling for $userId $projectName project details...")
