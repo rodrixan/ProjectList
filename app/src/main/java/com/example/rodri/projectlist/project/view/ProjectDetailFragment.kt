@@ -48,9 +48,7 @@ class ProjectDetailFragment : BaseFragment() {
         with(details) {
             Timber.d("Created at: ${creationDate}")
             Timber.d("Updated at: ${lastUpdateDate}")
-            language?.getIconByLanguage()?.let {
-                ivProjectOwnerAvatar.loadFromDrawable(it)
-            } ?: ivProjectOwnerAvatar.loadFromUrl(owner?.avatarUrl, Pair(200, 200))
+            ivProjectOwnerAvatar.loadFromUrl(owner?.avatarUrl)
             tvProjectOwnerName.text = owner?.name
             tvProjectName.text = name
             tvProjectLanguage.text = getString(R.string.rv_item_project_language_placeholder, language)
