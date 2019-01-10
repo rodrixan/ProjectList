@@ -18,8 +18,8 @@ import java.net.HttpURLConnection
 class GithubProjectRepository : ProjectRepository {
 
 
-    private val projectListData = MutableLiveData<AppInternalData<List<ProjectListItem>>>()
-    private val projectDetails = MutableLiveData<AppInternalData<ProjectDetails>>()
+    override val projectList = MutableLiveData<AppInternalData<List<ProjectListItem>>>()
+    override val projectDetails = MutableLiveData<AppInternalData<ProjectDetails>>()
 
     val dummyList = listOf(
         ProjectListItem(0, "Test1", User(), 1, "Java"),
@@ -28,11 +28,11 @@ class GithubProjectRepository : ProjectRepository {
         ProjectListItem(0, "Test3", User(), 20, "JavaScript")
     )
 
-    override fun getProjectList(userId: String): LiveData<AppInternalData<List<ProjectListItem>>> {
+    override fun loadProjectList(userId: String){
 
         //only make a call if it's not already loading
-        if (projectListData.value !is AppInternalData.Loading) {
-            projectListData.value = AppInternalData.Loading()
+        if (projectList.value !is AppInternalData.Loading) {
+            projectList.value = AppInternalData.Loading()
 
             GlobalScope.launch {
                 Timber.d("Calling for $userId projects...")
@@ -42,7 +42,7 @@ class GithubProjectRepository : ProjectRepository {
                         .awaitForResult { ProjectApiService.serviceResponseToAppError(it) }
                 Timber.d("Received response: success? ${apiResponse is AppInternalData.Success}")
                 withContext(Dispatchers.Main) {
-                    projectListData.value =
+                    projectList.value =
                             if (apiResponse is AppInternalData.Error && apiResponse.code == HttpURLConnection.HTTP_FORBIDDEN) {
                                 AppInternalData.Success(dummyList)
                             } else {
@@ -51,11 +51,9 @@ class GithubProjectRepository : ProjectRepository {
                 }
             }
         }
-
-        return projectListData
     }
 
-    override fun getProjectDetails(userId: String, projectName: String): LiveData<AppInternalData<ProjectDetails>> {
+    override fun loadProjectDetails(userId: String, projectName: String){
         if (projectDetails.value !is AppInternalData.Loading) {
             projectDetails.value = AppInternalData.Loading()
 
@@ -71,7 +69,5 @@ class GithubProjectRepository : ProjectRepository {
                 }
             }
         }
-
-        return projectDetails
     }
 }
